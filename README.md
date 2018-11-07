@@ -3,7 +3,7 @@ General repo for CDT 1st year projects
 
 Each project is 2-weeks long: consists of a couple days of lectures, followed by a week to read papers, implement methodology and write a report. The remainder of each of the 2 week modules is spent preparing for a presentation on the work.
 
-1) Statistical Computing and Computational Statistics
+## Statistical Computing and Computational Statistics
 
 Project: The Correlated Pseudo Marginal Method
 
@@ -14,7 +14,7 @@ Project: The Correlated Pseudo Marginal Method
 [Code](https://github.com/JTT94/cpmmc)
 
 
-2) Probability and Approximation
+## Probability and Approximation
 
 Project: Change Point Detection in Finite-State, Piece-Wise Markov Chains
 
