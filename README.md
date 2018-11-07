@@ -8,15 +8,19 @@ Each project is 2-weeks long: consists of a couple days of lectures, followed by
 Project: The Correlated Pseudo Marginal Method
 
 [Report](https://github.com/JTT94/cpmmc/blob/master/vignettes/cpmmc.pdf)
+
 [Presentation](https://github.com/JTT94/cpmmc/blob/master/Correlated_Pseudo_Marginal_Monte_Carlo.pdf)
+
 [Code](https://github.com/JTT94/cpmmc)
 
 
 2) Probability and Approximation
 
-Project: The Correlated Pseudo Marginal Method
+Project: Change Point Detection in Finite-State, Piece-Wise Markov Chains
 
 [Report](https://github.com/JTT94/mcchangepoints/blob/master/reports/Change_Points.pdf)
-[Presentation] (https://github.com/JTT94/mcchangepoints/blob/master/reports/Change_Points.pdf)
+
+[Presentation](https://github.com/JTT94/mcchangepoints/blob/master/reports/pres.pdf)
+
 [Code](https://github.com/JTT94/mcchangepoints)
 
