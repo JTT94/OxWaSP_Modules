@@ -8,7 +8,7 @@ x <- rnorm(100); x[x<1]
 #' @param n integer
 #' @param min numerical
 #' @description Return n independent random variables from a standard normal distribution truncated below by 0
-#' @example 
+#' @example
 #' floor_rnorm(4, 0)
 floor_rnorm <- function (n, min=0){
   pmax(rnorm(n), min)
@@ -55,7 +55,7 @@ library(nlme)
 data(Orthodont)
 # e) What object is 'Orthodont'?
 class(Orthodont)
-# [1] "nfnGroupedData" "nfGroupedData"  "groupedData"    "data.frame"   
+# [1] "nfnGroupedData" "nfGroupedData"  "groupedData"    "data.frame"
 #f, g) Print method for grouped data
 methods(print)
 # print.groupedData*
@@ -65,7 +65,7 @@ nlme:::print.groupedData
 # a) Fibonacci Recursion
 #' @param n integer
 #' @description return nth fibonacci number
-#' @example 
+#' @example
 #' fib(4)
 fib <- function(n)
   if(n<=2) { if(n>=0) 1 else 0 } else Recall(n-1) + Recall(n-2)
@@ -81,16 +81,16 @@ fib(20)
 # d) Fib loop
 #' @param n
 #' @description return nth fibonacci number
-#' @example 
+#' @example
 #' fib_loop(4)
 fib_loop <- function(n){
   if(n<=2) { if(n>=0) 1 else 0 } else {
     fn_minus_1 <- 1
     fn_minus_2 <- 1
-    steps_remaining <- n-2 
+    steps_remaining <- n-2
     while(steps_remaining > 0){
       steps_remaining <- steps_remaining-1
-      
+
       fn <- fn_minus_1 + fn_minus_2
       fn_minus_2 <- fn_minus_1
       fn_minus_1 <- fn
@@ -104,7 +104,7 @@ system.time(fib(1000))
 
 
 #4) MCMC ----
-# a) 
+# a)
 #' @param x
 #' @param alpha
 #' @param beta
@@ -128,17 +128,17 @@ single_mh_step <- function(x, alpha, beta, sigma){
     return(list("alpha" = alpha,
          "beta"  = beta))
   }
-  
+
   # Accept/ Reject
-  numerator <- log_posterior(x, alpha = prop_alpha, beta = prop_beta) 
-  denominator <-   log_posterior(x, alpha = alpha, beta = beta) 
-  
+  numerator <- log_posterior(x, alpha = prop_alpha, beta = prop_beta)
+  denominator <-   log_posterior(x, alpha = alpha, beta = beta)
+
   accept_prob <- exp(numerator-denominator)
 
   if(runif(1) < accept_prob){
-    list("alpha" = prop_alpha, 
+    list("alpha" = prop_alpha,
          "beta"  = prop_beta)
-  } else 
+  } else
     list("alpha" = alpha,
          "beta"  = beta)
 }
@@ -152,7 +152,7 @@ single_mh_step <- function(x, alpha, beta, sigma){
 mh_algo <- function(x, alpha, beta, sigma, n){
   latest_alpha <- alpha
   latest_beta <- beta
-  
+
   result_store <- matrix(NA,nrow = n, ncol = 2)
   for (i in 1:n){
     mh_result <- single_mh_step(x, latest_alpha, latest_beta, sigma)
@@ -183,10 +183,10 @@ hist(posterior[,2], main = 'Beta Posterior')
 plot(posterior[,1], type = 'l')
 points(posterior[,2], col= 'blue', type='l')
 
-hist(x, breaks = 100, freq = FALSE) 
+hist(x, breaks = 100, freq = FALSE)
 
-f <- function(y) 
-  dgamma(y, alphahat, betahat) 
+f <- function(y)
+  dgamma(y, alphahat, betahat)
 plot(f, 0, 70, add = TRUE, col = 2, lwd = 2)
 
 # 5) Methods ----
@@ -197,12 +197,12 @@ biv <- function(){
   value
 }
 
-print.biv <- function(obj) { 
-  n <- length(obj$x) 
+print.biv <- function(obj) {
+  n <- length(obj$x)
   cat("Bivariate data,", n, "entries\n")
-  len <- min(n, 6) 
+  len <- min(n, 6)
   dots <- ifelse(n > 6, "...", "")
-  cat("x : ", obj$x[1:len], dots, "\n") 
+  cat("x : ", obj$x[1:len], dots, "\n")
   cat("y : ", obj$y[1:len], dots, "\n")
   invisible(obj)
 }
@@ -210,9 +210,9 @@ print.biv <- function(obj) {
 plot.biv <- function(obj,...){
   par(mfrow=c(1,3))
   plot(obj$x, obj$y, xlab = 'x', ylab= 'y')
-  boxplot(obj$x, main = 'x') 
+  boxplot(obj$x, main = 'x')
   boxplot(obj$y, main ='y')
-  
+
   par(mfrow=c(1,1))
 }
 
@@ -222,9 +222,9 @@ plot(1:10)
 
 
 # low leverl constructor
-.Biv <- setClass("Biv", 
+.Biv <- setClass("Biv",
                     slots = c(
-                      x = "numeric", 
+                      x = "numeric",
                       y = "numeric"
                     )
 )
@@ -232,37 +232,49 @@ plot(1:10)
 
 # helper constructor
 Biv <- function(x=rnorm(20), y=rpois(20,5)){
-  # validation 
+  # validation
   .Biv(x=x,y=y)
 }
 
 # print, is "show" in S4
 setMethod("show", "Biv", function(object) {
   cat("Bivariate data \n")
-  
-  
+
+
   nx <- length(object@x)
   ny <- length(object@y)
-  
-  lenx <- min(nx, 6) 
-  leny <- min(ny, 6) 
-  
+
+  lenx <- min(nx, 6)
+  leny <- min(ny, 6)
+
   dotsx <- ifelse(nx > 6, "...", "")
   dotsy <- ifelse(ny > 6, "...", "")
-  
+
   cat(is(object)[[1]], "\n")
-  cat("x : ", object@x[1:lenx], dotsx, "\n") 
+  cat("x : ", object@x[1:lenx], dotsx, "\n")
   cat("y : ", object@y[1:leny], dotsy, "\n")
-  
+
+})
+
+setGeneric("chart", function(x) standardGeneric("chart"))
+setMethod("chart", "Biv", function(x) {
+  par(mfrow=c(1,3))
+  plot.default(x@x, x@y, xlab = 'x', ylab= 'y')
+  boxplot(x@x, main = 'x')
+  boxplot(x@y, main ='y')
+
+  par(mfrow=c(1,1))
 })
 
 
-setMethod("plot", "Biv", function(object) {
+
+
+setMethod("plot", "Biv", function(x) {
   par(mfrow=c(1,3))
-  plot(object@x, object@y, xlab = 'x', ylab= 'y')
-  boxplot(object@x, main = 'x') 
-  boxplot(object@y, main ='y')
-  
+  plot.default(x@x, x@y, xlab = 'x', ylab= 'y')
+  boxplot(x@x, main = 'x')
+  boxplot(x@y, main ='y')
+
   par(mfrow=c(1,1))
 })
 
@@ -270,26 +282,28 @@ setGeneric("print", function(object, ...) standardGeneric("print"))
 # print, is "show" in S4
 setMethod("print", "Biv", function(object) {
   cat("Bivariate data \n")
-  
-  
+
+
   nx <- length(object@x)
   ny <- length(object@y)
-  
-  lenx <- min(nx, 6) 
-  leny <- min(ny, 6) 
-  
+
+  lenx <- min(nx, 6)
+  leny <- min(ny, 6)
+
   dotsx <- ifelse(nx > 6, "...", "")
   dotsy <- ifelse(ny > 6, "...", "")
-  
+
   cat(is(object)[[1]], "\n")
-  cat("x : ", object@x[1:lenx], dotsx, "\n") 
+  cat("x : ", object@x[1:lenx], dotsx, "\n")
   cat("y : ", object@y[1:leny], dotsy, "\n")
-  
+
   invisible(object)
-  
+
 })
 
 obj <- Biv()
 plot(obj)
+chart(obj)
+print(obj)
 
-
+show(obj)
