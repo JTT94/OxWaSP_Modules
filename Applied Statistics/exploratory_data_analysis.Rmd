@@ -1,18 +1,171 @@
 ---
-title: "R Notebook"
+title: "Exploratory Data Analysis"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+\url{http://131.251.130.25/public/researcher/data.csv} 
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
 
+# Preamble
 ```{r}
-plot(cars)
+library(data.table)
+library(tidyverse)
+
+```
+# Read data:
+```{r}
+fp <- 'http://131.251.130.25/public/researcher/data.csv'
+RCurl::url.exists(fp, .header=TRUE)
+
+```
+```{r}
+dt <- data.table::fread(fp)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+# Explore
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+### Summary
+```{r}
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+summary(dt)
+
+```
+
+### Initial plot
+
+```{r}
+
+plot(dt)
+
+
+```
+
+# Model
+Fit Poisson, fit mixture of 2 Poissons
+```{r}
+
+mean(dt$quakes)
+var(dt$quakes)
+
+```
+
+```{r}
+# Param: lam1, lam2, w
+poisson_mixture_density <- function(data, params) {
+  w <- params[3]
+  lam1 <- params[1]
+  lam2 <- params[2]
+  
+  out <- sum(log(w*dpois(data, lambda = lam1) + (1-w)*dpois(data, lambda = lam2)))
+  out
+}
+
+opt_param <- optim(c(10,30,0.5), fn = function(params) -poisson_mixture_density(dt$quakes, params))
+opt_param
+
+```
+
+With bounds
+```{r}
+opt_param <- optim(c(10,30,0.5), 
+                   fn = function(params) -poisson_mixture_density(dt$quakes, params),
+                   method = "L-BFGS-B", lower = c(0,0,0), upper = c(Inf, Inf, 1))
+opt_param
+
+
+```
+
+```{r}
+library(depmixS4)
+
+mix_mod <- depmixS4::mix(quakes ~ 1, nstates = 2, data = dt, family = poisson())
+mix_mod <- depmixS4::fit(mix_mod)
+params <- depmixS4::getpars(mix_mod)
+logl <- depmixS4::logLik(mix_mod)
+
+print(paste0('Params: ', paste0(params, collapse = ',')))
+print(paste0('Loglikelihood: ',logl))
+
+```
+
+
+## Fit dependent mixture, HMM
+```{r}
+state_matrix <- matrix(c(0.94, 0.1, 0.1, 9), nrow=2, ncol = 2)
+
+dep_mix <- depmixS4::depmix(quakes ~ 1, nstates = 2, data = dt, family = poisson())
+  
+dep_mix <- depmixS4::setpars(dep_mix, values = c(0.5, 0.5, 0.9, 0.1, 0.1, 0.9, log(15), log(25)))
+
+fb_algo_res <- depmixS4::forwardbackward(dep_mix)
+
+
+
+```
+
+
+
+
+
+Plot data vs transition matrix
+
+```{r}
+par(mfrow=c(3,1))
+plot(dt$quakes, type = 'l')
+plot(fb_algo_res$gamma[,1], col= 'red', type='l')
+plot(fb_algo_res$gamma[,2], col= 'red', type='l')
+```
+
+```{r}
+
+global <- viterbi(dep_mix)$state
+local <- floor(0.5 + fb_algo_res$gamma[,2]) +1
+
+par(mfrow=c(3,1))
+plot(dt$quakes, type = 'l')
+plot(global, type = 'l', col='red')
+plot(local, type = 'l', col = 'blue')
+```
+
+
+```{r}
+results <- list()
+for (mix_num in seq_len(10)) {
+  results[[mix_num]] <- list()
+  
+  # fit independent
+  mix_mod <- depmixS4::mix(quakes ~ 1, nstates = mix_num, data = dt, family = poisson())
+  mix_mod <- depmixS4::fit(mix_mod)
+  
+  # fit dependent 
+  dep_mix <- depmixS4::depmix(quakes ~ 1, nstates = mix_num, data = dt, family = poisson())
+  dep_mix <- depmixS4::fit(dep_mix)
+  
+  # calc aic, bic
+  results[[mix_num]][['aic_ind']] <- AIC(mix_mod)
+  results[[mix_num]][['bic_ind']] <- BIC(mix_mod)
+    
+  results[[mix_num]][['aic_dep']] <- AIC(dep_mix)
+  results[[mix_num]][['bic_dep']] <- BIC(dep_mix)
+  
+  
+}
+
+```
+
+```{r}
+
+
+aic_bic <- data.frame(data.table::rbindlist(l=lapply(results, function(x) data.frame(x))))
+
+matplot(seq_len(10), aic_bic, type = 'l')
+legend('topleft', legend = colnames(aic_bic), pch = '-', col = 1:4)
+```
+
+
+
+
+
+
+
+

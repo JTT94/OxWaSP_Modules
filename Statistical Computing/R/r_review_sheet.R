@@ -233,6 +233,10 @@ plot(1:10)
 # helper constructor
 Biv <- function(x=rnorm(20), y=rpois(20,5)){
   # validation
+  # validation here on arguments
+  
+  # constructor
+
   .Biv(x=x,y=y)
 }
 
@@ -279,6 +283,7 @@ setMethod("plot", "Biv", function(x) {
 })
 
 setGeneric("print", function(object, ...) standardGeneric("print"))
+
 # print, is "show" in S4
 setMethod("print", "Biv", function(object) {
   cat("Bivariate data \n")
@@ -306,4 +311,19 @@ plot(obj)
 chart(obj)
 print(obj)
 
+
 show(obj)
+
+# 6) Functions ----
+# a) Return matrix of specific form
+
+#' @param x, numeric vector
+#' @param z, numeric vector
+#' @description return matrix with first column 1, 
+#' second column x, third z 
+#' and fourth the element-wise project 
+#' @example gen_matric(1:10,11:20)
+gen_matrix <- function(x, z) {
+ init_matrix <- matrix(NA, nrow=min(length(x), length(z)), ncol = 4)
+ init_matrix
+}
