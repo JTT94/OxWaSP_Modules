@@ -45,11 +45,12 @@ Project: Fitting Methodology for the The Structured Bradley Terry Model
 
 Project: The Dynamic Structured Bradley Terry Model using Polya Gamma Auxiliary Variables
 
-[Report]()
+[Report](https://github.com/JTT94/OxWaSP_Modules/blob/master/Time_Series/Dynamic_Structured_Bradley_Terry.pdf)
 
-[Presentation]()
+[Presentation](https://github.com/JTT94/OxWaSP_Modules/blob/master/Time_Series/Dynamic_Structured_BT_Pres.pdf)
 
-[Code]()
+[Code](https://github.com/Chau999/Dynamic_BT)
+
 
 ## Bayesian Inference
 
@@ -65,11 +66,10 @@ Project: Distributed Posteriors
 
 Project: The Embedded Hidden Markov Model Method
 
-[Report]()
+[Report](https://github.com/JTT94/OxWaSP_Modules/blob/master/Stochastic_Simulation/Module_7___Embedded_HMM_for_SMC.pdf)
 
-[Presentation]()
+[Presentation](https://github.com/JTT94/OxWaSP_Modules/blob/master/Stochastic_Simulation/Module_7___Embedded_HMM_Presentation.pdf)
 
-[Code]()
 
 ## Machine Learning
 
