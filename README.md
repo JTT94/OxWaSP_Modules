@@ -24,3 +24,56 @@ Project: Change Point Detection in Finite-State, Piece-Wise Markov Chains
 
 [Code](https://github.com/JTT94/mcchangepoints)
 
+## Applied Statistics 
+
+Project: Latent Factor Methods in Neuroimaging: ICA, PCA, CCA
+
+[Report](https://github.com/JTT94/OxWaSP_Modules/blob/master/Applied_Statistics/LatentFactors.pdf)
+
+[Presentation](https://github.com/JTT94/OxWaSP_Modules/blob/master/Applied_Statistics/Latent_Factor_Methods_in_Neuroimaging_Data.pdf)
+
+## Network Analysis
+
+Project: Fitting Methodology for the The Structured Bradley Terry Model
+
+[Report](https://github.com/JTT94/OxWaSP_Modules/blob/master/Network_Analysis/Network_Analysis.pdf)
+
+[Presentation](https://github.com/JTT94/OxWaSP_Modules/blob/master/Network_Analysis/Structured_BT_Presentation.pdf)
+
+
+## Time Series and Stochastic Processes
+
+Project: The Dynamic Structured Bradley Terry Model using Polya Gamma Auxiliary Variables
+
+[Report]()
+
+[Presentation]()
+
+[Code]()
+
+## Bayesian Inference
+
+Project: Distributed Posteriors
+
+[Report](https://github.com/JTT94/distributed_posteriors/blob/master/Distributed_Posteriors.pdf)
+
+[Presentation](https://github.com/JTT94/distributed_posteriors/blob/master/Distributed%20Posterior%20Presentation.pdf)
+
+[Code](https://github.com/JTT94/distributed_posteriors)
+
+## Stochastic Simulation
+
+Project: The Embedded Hidden Markov Model Method
+
+[Report]()
+
+[Presentation]()
+
+[Code]()
+
+## Machine Learning
+
+Project: Meta Learning with Neural Processes and MAML
+
+[Presentation](https://github.com/JTT94/neural_processes/blob/master/Module_8___Meta_Learning.pdf)
+[Code](https://github.com/JTT94/neural_processes)
